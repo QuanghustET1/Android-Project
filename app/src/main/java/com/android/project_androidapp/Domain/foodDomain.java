@@ -56,4 +56,15 @@ public class foodDomain implements Serializable {
     public void setNumberInCart(int numberInCart) {
         this.numberInCart = numberInCart;
     }
+
+    @Override
+    public String toString() {
+        return "foodDomain{" +
+                "title='" + title + '\'' +
+                ", pic='" + pic + '\'' +
+                ", description='" + description + '\'' +
+                ", fee=" + fee +
+                ", numberInCart=" + numberInCart +
+                '}';
+    }
 }

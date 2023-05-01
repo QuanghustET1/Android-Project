@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.project_androidapp.DB.DB_ManageCart;
 import com.android.project_androidapp.Domain.foodDomain;
 import com.android.project_androidapp.DB.ManageCart;
 import com.android.project_androidapp.R;
@@ -20,11 +21,13 @@ public class ShowDetailActivity extends AppCompatActivity {
     private foodDomain object;
     private int numOder = 1;
     private ManageCart manageCart;
+    private DB_ManageCart db_manageCart;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_detail);
         manageCart = new ManageCart(this);
+        db_manageCart = new DB_ManageCart(this);
         initView();
         getBundle();
     }
@@ -65,7 +68,10 @@ public class ShowDetailActivity extends AppCompatActivity {
                 Log.i("addToCart", "clicked");
                 object.setNumberInCart(ShowDetailActivity.this.numOder);
                 manageCart.insertFoodToCart(object);
-                startActivity(new Intent(ShowDetailActivity.this, CartManager.class).putExtra("cartManage", manageCart.getListCart()));
+                db_manageCart.insertFood(object);
+                foodDomain food = db_manageCart.getFood(object.getTitle());
+                Log.i("food Inf", food.toString());
+                startActivity(new Intent(ShowDetailActivity.this, CartManager.class).putExtra("cartManage", db_manageCart.getListFood()));
             }
         });
     }

@@ -10,6 +10,7 @@ import android.view.View;
 
 import com.android.project_androidapp.Adapter.categoryAdapter;
 import com.android.project_androidapp.Adapter.popularAdapter;
+import com.android.project_androidapp.DB.DB_ManageCart;
 import com.android.project_androidapp.Domain.categoryList;
 import com.android.project_androidapp.Domain.foodDomain;
 import com.android.project_androidapp.DB.ManageCart;
@@ -24,12 +25,14 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerPopularViewFood;
     private RecyclerView.Adapter recyclerViewFoodAdapter;
     private FloatingActionButton btnShowListCart;
-    private ManageCart manageCart;
+//    private ManageCart manageCart;
+    private DB_ManageCart dbManageCart;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        this.manageCart = new ManageCart(this);
+//        this.manageCart = new ManageCart(this);
+        this.dbManageCart = new DB_ManageCart(this);
         //Ham nay de set category vao Layout cho RecyclerView
         recyclerViewCategory();
         popularViewFood();
@@ -41,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         this.btnShowListCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, CartManager.class).putExtra("cartManage", MainActivity.this.manageCart.getListCart()));
+                startActivity(new Intent(MainActivity.this, CartManager.class).putExtra("cartManage", MainActivity.this.dbManageCart.getListFood()));
             }
         });
     }

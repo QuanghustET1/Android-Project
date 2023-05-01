@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.android.project_androidapp.Adapter.listCartItemAdapter;
+import com.android.project_androidapp.DB.DB_ManageCart;
 import com.android.project_androidapp.Domain.foodDomain;
 import com.android.project_androidapp.DB.ManageCart;
 import com.android.project_androidapp.R;
@@ -20,24 +21,35 @@ public class CartManager extends AppCompatActivity {
     private TextView numberOfItem;
     private TextView totalCostOfItem;
     private TextView checkoutBtn;
-    private ManageCart cartManage;
+//    private ManageCart cartManage;
+    private DB_ManageCart db_manageCart;
     private listCartItemAdapter listItemAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart_manager);
-        cartManage = new ManageCart(this);
+//        cartManage = new ManageCart(this);
+        db_manageCart = new DB_ManageCart(this);
         initView();
         showListItem();
         checkoutItem();
+    }
+
+    public double sumOfCostListItem(DB_ManageCart dbManageCart){
+        ArrayList<foodDomain> arrFood = dbManageCart.getListFood();
+        double sumCost = 0;
+        for (int i = 0; i < arrFood.size(); i++) {
+            sumCost += arrFood.get(i).getFee();
+        }
+        return sumCost;
     }
 
     private void checkoutItem() {
         this.checkoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                CartManager.this.totalCostOfItem.setText(String.format("%.2f", CartManager.this.cartManage.totalcostOfListItem()));
+                CartManager.this.totalCostOfItem.setText(String.format("%.2f", CartManager.this.sumOfCostListItem(CartManager.this.db_manageCart)));
             }
         });
     }
@@ -45,18 +57,18 @@ public class CartManager extends AppCompatActivity {
     private void showListItem() {
         this.listItemInCart.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         ArrayList<foodDomain> arrFood = (ArrayList<foodDomain>)getIntent().getSerializableExtra("cartManage");
-        this.listItemAdapter = new listCartItemAdapter(arrFood, this.cartManage);
+        this.listItemAdapter = new listCartItemAdapter(arrFood, this.db_manageCart);
         this.listItemInCart.setAdapter(this.listItemAdapter);
         this.listItemAdapter.setOnItemClickListener(new listCartItemAdapter.OnItemClickListener() {
             @Override
             public void OnItemClick(int position) {
                 arrFood.remove(position);
-                CartManager.this.cartManage.deleteFood(position);
+                CartManager.this.db_manageCart.deleteFood(position);
                 CartManager.this.listItemAdapter.notifyItemRemoved(position);
             }
         });
         this.numberOfItem.setText(String.valueOf(arrFood.size()));
-        this.totalCostOfItem.setText(String.format("%.2f", this.cartManage.totalcostOfListItem()));
+        this.totalCostOfItem.setText(String.format("%.2f", CartManager.this.sumOfCostListItem(CartManager.this.db_manageCart)));
     }
 
     private void initView() {
