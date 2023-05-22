@@ -68,7 +68,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginBottom="24dp"
-        android:background="@drawable/orange_button"
+        android:background="@drawable/blue_button"
         app:layout_constraintBottom_toBottomOf="@+id/categoryItemImg"
         app:layout_constraintEnd_toEndOf="@+id/categoryItemName"
         app:layout_constraintStart_toEndOf="@id/categoryItemImg">

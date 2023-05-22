@@ -106,7 +106,7 @@
         android:layout_width="289dp"
         android:layout_height="52dp"
         android:layout_marginBottom="32dp"
-        android:background="@drawable/orange_button"
+        android:background="@drawable/blue_button"
         android:paddingTop="8dp"
         android:text="+ Thêm vào giỏ hàng"
         android:textAlignment="center"
