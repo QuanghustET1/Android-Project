@@ -268,10 +268,10 @@
             android:id="@+id/btnShowListCart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="#ff5e00"
+            android:backgroundTint="@color/magenta"
             android:elevation="3dp"
             android:src="@drawable/shopping_cart"
-            app:backgroundTint="#ff5e00"
+            app:backgroundTint="@color/magenta"
             app:layout_anchor="@id/app_bar"></com.google.android.material.floatingactionbutton.FloatingActionButton>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
