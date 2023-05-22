@@ -5,16 +5,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.android.project_androidapp.DB.DB_ManageCart;
+import com.android.project_androidapp.DB.Database;
 import com.android.project_androidapp.Domain.foodDomain;
-import com.android.project_androidapp.DB.ManageCart;
 import com.android.project_androidapp.R;
 import com.bumptech.glide.Glide;
 
@@ -24,11 +22,11 @@ import java.util.ArrayList;
 public class listCartItemAdapter extends RecyclerView.Adapter<listCartItemAdapter.ViewHolder> {
     //Tao ra list category de truyen vao ham tao de nhan tham so la list category truyen vao tu ben kia
     ArrayList<foodDomain> foodDomains;
-    DB_ManageCart dbManageCart;
+    Database dbManageCart;
     OnItemClickListener onItemClickListener;
 
     //tao ra mot category duoc cau hinh va co data la list category
-    public listCartItemAdapter(ArrayList<foodDomain> foodDomains, DB_ManageCart dbManageCart) {
+    public listCartItemAdapter(ArrayList<foodDomain> foodDomains, Database dbManageCart) {
         this.foodDomains = foodDomains;
         this.dbManageCart = dbManageCart;
     }
@@ -96,7 +94,7 @@ public class listCartItemAdapter extends RecyclerView.Adapter<listCartItemAdapte
                     foodDomains.get(n).setNumberInCart(foodDomains.get(n).getNumberInCart() - 1);
                     holder.numItem.setText(String.valueOf(foodDomains.get(n).getNumberInCart()));
                     holder.totalcostItem.setText(String.format("%.2f", foodDomains.get(n).getNumberInCart()*foodDomains.get(n).getFee()));
-                    dbManageCart.updateFood(foodDomains.get(n),foodDomains.get(n).getNumberInCart());
+                    dbManageCart.updateFoodinCart(foodDomains.get(n),foodDomains.get(n).getNumberInCart());
                 }
             }
         });
@@ -106,7 +104,7 @@ public class listCartItemAdapter extends RecyclerView.Adapter<listCartItemAdapte
                 foodDomains.get(n).setNumberInCart(foodDomains.get(n).getNumberInCart() + 1);
                 holder.numItem.setText(String.valueOf(foodDomains.get(n).getNumberInCart()));
                 holder.totalcostItem.setText(String.format("%.2f", foodDomains.get(n).getNumberInCart()*foodDomains.get(n).getFee()));
-                dbManageCart.updateFood(foodDomains.get(n),foodDomains.get(n).getNumberInCart());
+                dbManageCart.updateFoodinCart(foodDomains.get(n),foodDomains.get(n).getNumberInCart());
             }
         });
 //        holder.deleteItem.setOnClickListener(new View.OnClickListener() {

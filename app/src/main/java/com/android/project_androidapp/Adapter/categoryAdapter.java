@@ -1,5 +1,6 @@
 package com.android.project_androidapp.Adapter;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.project_androidapp.Activities.showCategoryList;
 import com.android.project_androidapp.Domain.categoryList;
 import com.android.project_androidapp.R;
 import com.bumptech.glide.Glide;
@@ -20,7 +22,7 @@ import java.util.ArrayList;
 //Cho nay nhu kieu framwork, khong can hieu het
 public class categoryAdapter extends RecyclerView.Adapter<categoryAdapter.ViewHolder> {
     //Tao ra list category de truyen vao ham tao de nhan tham so la list category truyen vao tu ben kia
-    ArrayList<categoryList> categoryLists;
+    private ArrayList<categoryList> categoryLists;
 
     //tao ra mot category duoc cau hinh va co data la list category
     public categoryAdapter(ArrayList<categoryList> categoryLists) {
@@ -38,6 +40,7 @@ public class categoryAdapter extends RecyclerView.Adapter<categoryAdapter.ViewHo
     //ham nay de cau hinh xem cac category se duoc hien thi nhu the nao
     @Override
     public void onBindViewHolder(@NonNull categoryAdapter.ViewHolder holder, int position) {
+        int n = position;
         //Set ten cua category bang cach lay ten theo vi tri cua category trong list(mang) truyen vao
         holder.categoryName.setText(categoryLists.get(position).getName());
         //Tao bien ten anh background
@@ -75,6 +78,12 @@ public class categoryAdapter extends RecyclerView.Adapter<categoryAdapter.ViewHo
         Glide.with(holder.itemView.getContext())
                 .load(drawableResourceId)
                 .into(holder.categoryPic);
+        holder.mainLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                holder.itemView.getContext().startActivity(new Intent(holder.itemView.getContext(), showCategoryList.class).putExtra("categoryID", categoryLists.get(n).getCategoryID()));
+            }
+        });
     }
 
 

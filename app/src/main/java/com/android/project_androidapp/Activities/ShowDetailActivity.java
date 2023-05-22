@@ -9,9 +9,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.android.project_androidapp.DB.DB_ManageCart;
+import com.android.project_androidapp.DB.Database;
 import com.android.project_androidapp.Domain.foodDomain;
-import com.android.project_androidapp.DB.ManageCart;
 import com.android.project_androidapp.R;
 import com.bumptech.glide.Glide;
 
@@ -20,14 +19,12 @@ public class ShowDetailActivity extends AppCompatActivity {
     private ImageView detailFoodImg;
     private foodDomain object;
     private int numOder = 1;
-    private ManageCart manageCart;
-    private DB_ManageCart db_manageCart;
+    private Database database_;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_detail);
-        manageCart = new ManageCart(this);
-        db_manageCart = new DB_ManageCart(this);
+        database_ = new Database(this);
         initView();
         getBundle();
     }
@@ -67,11 +64,8 @@ public class ShowDetailActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Log.i("addToCart", "clicked");
                 object.setNumberInCart(ShowDetailActivity.this.numOder);
-                manageCart.insertFoodToCart(object);
-                db_manageCart.insertFood(object);
-                foodDomain food = db_manageCart.getFood(object.getTitle());
-                Log.i("food Inf", food.toString());
-                startActivity(new Intent(ShowDetailActivity.this, CartManager.class).putExtra("cartManage", db_manageCart.getListFood()));
+                database_.insertFoodToCart(object);
+                startActivity(new Intent(ShowDetailActivity.this, CartManager.class).putExtra("cartManage", database_.getListFoodFromCart()));
             }
         });
     }

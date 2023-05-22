@@ -9,9 +9,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.android.project_androidapp.Adapter.listCartItemAdapter;
-import com.android.project_androidapp.DB.DB_ManageCart;
+import com.android.project_androidapp.DB.Database;
 import com.android.project_androidapp.Domain.foodDomain;
-import com.android.project_androidapp.DB.ManageCart;
 import com.android.project_androidapp.R;
 
 import java.util.ArrayList;
@@ -22,7 +21,7 @@ public class CartManager extends AppCompatActivity {
     private TextView totalCostOfItem;
     private TextView checkoutBtn;
 //    private ManageCart cartManage;
-    private DB_ManageCart db_manageCart;
+    private Database database_;
     private listCartItemAdapter listItemAdapter;
 
     @Override
@@ -30,17 +29,17 @@ public class CartManager extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart_manager);
 //        cartManage = new ManageCart(this);
-        db_manageCart = new DB_ManageCart(this);
+        database_ = new Database(this);
         initView();
         showListItem();
         checkoutItem();
     }
 
-    public double sumOfCostListItem(DB_ManageCart dbManageCart){
-        ArrayList<foodDomain> arrFood = dbManageCart.getListFood();
+    public double sumOfCostListItem(Database dbManageCart){
+        ArrayList<foodDomain> arrFood = dbManageCart.getListFoodFromCart();
         double sumCost = 0;
         for (int i = 0; i < arrFood.size(); i++) {
-            sumCost += arrFood.get(i).getFee();
+            sumCost += arrFood.get(i).getFee()*arrFood.get(i).getNumberInCart();
         }
         return sumCost;
     }
@@ -49,7 +48,7 @@ public class CartManager extends AppCompatActivity {
         this.checkoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                CartManager.this.totalCostOfItem.setText(String.format("%.2f", CartManager.this.sumOfCostListItem(CartManager.this.db_manageCart)));
+                CartManager.this.totalCostOfItem.setText(String.format("%.2f", CartManager.this.sumOfCostListItem(CartManager.this.database_)));
             }
         });
     }
@@ -57,18 +56,18 @@ public class CartManager extends AppCompatActivity {
     private void showListItem() {
         this.listItemInCart.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         ArrayList<foodDomain> arrFood = (ArrayList<foodDomain>)getIntent().getSerializableExtra("cartManage");
-        this.listItemAdapter = new listCartItemAdapter(arrFood, this.db_manageCart);
+        this.listItemAdapter = new listCartItemAdapter(arrFood, this.database_);
         this.listItemInCart.setAdapter(this.listItemAdapter);
         this.listItemAdapter.setOnItemClickListener(new listCartItemAdapter.OnItemClickListener() {
             @Override
             public void OnItemClick(int position) {
                 arrFood.remove(position);
-                CartManager.this.db_manageCart.deleteFood(position);
+                CartManager.this.database_.deleteFoodinCart(position);
                 CartManager.this.listItemAdapter.notifyItemRemoved(position);
             }
         });
         this.numberOfItem.setText(String.valueOf(arrFood.size()));
-        this.totalCostOfItem.setText(String.format("%.2f", CartManager.this.sumOfCostListItem(CartManager.this.db_manageCart)));
+        this.totalCostOfItem.setText(String.format("%.2f", CartManager.this.sumOfCostListItem(CartManager.this.database_)));
     }
 
     private void initView() {

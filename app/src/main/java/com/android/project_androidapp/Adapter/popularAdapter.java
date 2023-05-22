@@ -46,27 +46,36 @@ public class popularAdapter extends RecyclerView.Adapter<popularAdapter.ViewHold
         holder.foodTitle.setText(foodDomainsLists.get(position).getTitle());
         holder.foodFee.setText(foodDomainsLists.get(position).getFee().toString());
         //Tao bien ten anh background
-        String picUrl = "";
+//        String picUrl = "";
         //Set background theo vi tri category trong List(mang) truyen vao
         switch (position){
             case 0:{
-                picUrl = "pop_1";
                 holder.foodConstrain.setBackground(ContextCompat.getDrawable(holder.itemView.getContext(), R.drawable.category_background1));
                 break;
             }
             case 1:{
-                picUrl = "pop_2";
                 holder.foodConstrain.setBackground(ContextCompat.getDrawable(holder.itemView.getContext(), R.drawable.category_background2));
                 break;
             }
             case 2:{
-                picUrl = "pop_3";
                 holder.foodConstrain.setBackground(ContextCompat.getDrawable(holder.itemView.getContext(), R.drawable.category_background3));
+                break;
+            }
+            case 3:{
+                holder.foodConstrain.setBackground(ContextCompat.getDrawable(holder.itemView.getContext(), R.drawable.category_background3));
+                break;
+            }
+            case 4:{
+                holder.foodConstrain.setBackground(ContextCompat.getDrawable(holder.itemView.getContext(), R.drawable.category_background2));
+                break;
+            }
+            case 5:{
+                holder.foodConstrain.setBackground(ContextCompat.getDrawable(holder.itemView.getContext(), R.drawable.category_background1));
                 break;
             }
         }
         //Ham nay de lay avatar picUrl theo ten picUrl lay duoc ben tren
-        int drawableResourceId = holder.itemView.getContext().getResources().getIdentifier(picUrl, "drawable", holder.itemView.getContext().getPackageName());
+        int drawableResourceId = holder.itemView.getContext().getResources().getIdentifier(foodDomainsLists.get(n).getPic(), "drawable", holder.itemView.getContext().getPackageName());
         Glide.with(holder.itemView.getContext())
                 .load(drawableResourceId)
                 .into(holder.foodImage);
