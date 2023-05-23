@@ -128,7 +128,7 @@
                     android:layout_height="63dp"
                     android:layout_marginTop="32dp"
                     android:layout_marginBottom="70dp"
-                    android:background="@drawable/orange_button"
+                    android:background="@drawable/blue_button"
                     android:paddingTop="15dp"
                     android:text="Thanh toán"
                     android:textAlignment="center"
